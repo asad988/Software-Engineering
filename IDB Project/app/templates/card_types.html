@@ -1,0 +1,52 @@
+{% extends "skeleton.html" %}
+{% block title %}Card Types{% endblock %}
+{% block content %}
+<table class="table table-hover" id="cardtype_table">
+    <thead>
+        <tr>
+            <th data-sort="string">Name</th>
+            <th data-sort="int"># of Cards In Type</th>
+            <th data-sort="int"># of Subtypes</th>
+        </tr>
+    </thead>
+    <tbody id="cardtype_table_body">
+
+    </tbody>
+</table>
+
+<script>
+function populate_cards() {
+        var result = {{tlist|safe}};
+        var table = document.getElementById("cardtype_table_body");
+        var i = 0;
+        for (var item in result) {
+            if(i==1 | i==2 | i==7){
+                var row = document.createElement("tr");
+                var cardname = document.createElement("td");
+                var card_in_t = document.createElement("td");
+                var num_of_st = document.createElement("td");
+                var cardlink= document.createElement("a");
+                var typelink= document.createElement("a");
+
+                cardlink.href="typeTemplate/"+result[i][1];
+                cardname.appendChild(cardlink);
+                typelink.href="typeTemplate/"+result[i][1];
+                card_in_t.appendChild(typelink);
+
+                row.appendChild(cardname);
+                row.appendChild(card_in_t);
+                row.appendChild(num_of_st);
+                table.appendChild(row);
+
+                cardlink.innerHTML = (result[i][1]).toUpperCase();
+                //card_in_t.innerHTML = result[i][2];
+                typelink.innerHTML = result[i][2];
+                num_of_st.innerHTML = result[i][4];
+            }
+            i+=1;
+        }
+        $("#cardtype_table").stupidtable();
+}
+window.onload = populate_cards;
+</script>
+{% endblock %}

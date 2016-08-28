@@ -1,0 +1,58 @@
+{% extends "skeleton.html" %}
+{% block title %}Subtypes{% endblock %}
+{% block content %}
+<table class="table table-hover" id="subtype_table">
+    <thead>
+        <tr>
+            <th data-sort="int">ID</th>
+            <th data-sort="string">Name</th>
+            <th data-sort="string"># of Cards in Subtype</th>
+            <th data-sort="string">Avg. Price of Subtype</th>
+            <th data-sort="string">Card Type</th>
+        </tr>
+    </thead>
+    <tbody id="subtype_table_body">
+
+    </tbody>
+</table>
+
+<script>
+function populate_cards() {
+        var result = {{sublist|safe}};
+        var table = document.getElementById("subtype_table_body");
+        var i = 0;
+        for (var item in result) {
+            var row = document.createElement("tr");
+            var cardid = document.createElement("td");
+            var cardname = document.createElement("td");
+            var card_in_st = document.createElement("td");
+            var price_of_st = document.createElement("td");
+            var card_type = document.createElement("td");
+            var cardlink= document.createElement("a");
+            var cardlink1= document.createElement("a");
+
+            cardlink.href="subTypeTemplate/"+result[i][0];
+            cardlink1.href="typeTemplate/"+result[i][5];
+
+            card_type.appendChild(cardlink1);
+            cardname.appendChild(cardlink);
+
+            row.appendChild(cardid);
+            row.appendChild(cardname);
+            row.appendChild(card_in_st);
+            row.appendChild(price_of_st);
+            row.appendChild(card_type);
+
+            table.appendChild(row);
+            cardid.innerHTML = result[i][0];
+            cardlink.innerHTML = result[i][2];
+            card_in_st.innerHTML = result[i][3];
+            price_of_st.innerHTML = result[i][4];
+            cardlink1.innerHTML = result[i][5];
+            i+=1;
+        }
+        $("#subtype_table").stupidtable();
+}
+window.onload = populate_cards;
+</script>
+{% endblock %}
